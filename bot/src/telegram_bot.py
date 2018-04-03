@@ -10,7 +10,9 @@ from .base_bot import BaseBot
 class TelegramBot(BaseBot):
     def __init__(self, config: dict = None):
         super().__init__(self.process_message)
-        self._config = config if config is not None else json.loads(open("config.json").read())["telegram_bot"]
+        with open("config.json", "r") as file: #With 'r' it's READEBLY | yay ^.^
+            self._config = config if config is not None else json.loads(file.read())["telegram_bot"]
+            file.close() #A K A yebanstvo
         self._app = web.Application()
         self._app.add_routes([web.get(self._config["webhook_endpoint"], self._process_update)])
 
