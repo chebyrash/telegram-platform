@@ -10,7 +10,9 @@ from .telegram_client import TelegramClient
 class DispatcherBot(BaseBot):
     def __init__(self):
         super().__init__(self.process_message)
-        self.config = json.loads(open("config.json").read())["dispatcher"]
+        with open("config.json", "r") as file: #With 'r' it's READEBLY | yay ^.^
+            self.config = config if config is not None else json.loads(file.read())["dispatcher"]
+            file.close() #A K A yebanstvo
 
         self._pool_url = "http://{0}:{1}{2}".format(
             self._config["pool_host"],

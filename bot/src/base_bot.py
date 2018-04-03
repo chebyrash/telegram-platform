@@ -4,10 +4,26 @@ import logging
 
 import aiohttp
 
+#For mega-brain people ^.^
+# # # #
+# with open(smth) as file: #Context manager #Менеджер контекста
+#    #file is opened here
+#    [do smth with opened file]
+# #file is closed here
+#
+# #
+#После выхода из блока with файл будет автоматически закрыт
+#Данные действия прописаны в специальном блоке кода в определении класса
+#Соответственное имеются не везде, но в стандартных классах ожидаемо есть
+#По сути, важно запомнить это для with open
+# # # #
+
 
 class BaseBot(object):
     def __init__(self, process_message: callable):
-        self._config = json.loads(open("config.json").read())["base_bot"]
+        with open("config.json", "r") as file: #With 'r' it's READEBLY | yay ^.^
+            self._config = config if config is not None else json.loads(file.read())["base_bot"]
+            file.close() #A K A yebanstvo
         self._pool_url = "http://{0}:{1}{2}".format(
             self._config["pool_host"],
             self._config["pool_port"],
